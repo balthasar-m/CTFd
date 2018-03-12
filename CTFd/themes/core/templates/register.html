@@ -26,12 +26,14 @@
 					</label>
 					<input class="form-control" type="text" name="name" id="name-input" {% if name %}value="{{ name }}"{% endif %} />
 				</div>
+				{% if not no_emails %}
 				<div class="form-group">
 					<label for="email-input">
 						Email
 					</label>
 					<input class="form-control" type="text" name="email" id="email-input" {% if email %}value="{{ email }}"{% endif %} />
 				</div>
+				{% endif %}
 				<div class="form-group">
 					<label for="password-input">
 						Password

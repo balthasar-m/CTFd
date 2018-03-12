@@ -91,6 +91,13 @@
 				<div role="tabpanel" class="tab-pane" id="accounts-section">
 					<div class="form-check">
 						<label>
+							<input id="no_emails" name="no_emails" type="checkbox" {% if no_emails %}checked{% endif %}>
+							Generate dummy email addresses automatically based on the team name
+						</label>
+					</div>
+
+					<div class="form-check">
+						<label>
 							<input id="verify_emails" name="verify_emails" type="checkbox" {% if verify_emails %}checked{% endif %}>
 							Only allow users with verified emails
 						</label>

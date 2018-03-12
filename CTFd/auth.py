@@ -81,6 +81,8 @@ def confirm_user(data=None):
 @auth.route('/reset_password/<data>', methods=['POST', 'GET'])
 @ratelimit(method="POST", limit=10, interval=60)
 def reset_password(data=None):
+    if utils.get_config('no_emails'):
+        return redirect(url_for('auth.login'))
     logger = logging.getLogger('logins')
 
     if data is not None:
@@ -142,7 +144,10 @@ def register():
     if request.method == 'POST':
         errors = []
         name = request.form['name']
-        email = request.form['email']
+        if utils.get_config('no_emails'):
+            email = name + '@' + 'ctf.notopleveldomain'
+        else:
+            email = request.form['email']
         password = request.form['password']
 
         name_len = len(name) == 0
@@ -150,7 +155,7 @@ def register():
         emails = Teams.query.add_columns('email', 'id').filter_by(email=email).first()
         pass_short = len(password) == 0
         pass_long = len(password) > 128
-        valid_email = utils.check_email_format(request.form['email'])
+        valid_email = utils.check_email_format(email)
         team_name_email_check = utils.check_email_format(name)
 
         if not valid_email:
@@ -169,7 +174,7 @@ def register():
             errors.append('Pick a longer team name')
 
         if len(errors) > 0:
-            return render_template('register.html', errors=errors, name=request.form['name'], email=request.form['email'], password=request.form['password'])
+            return render_template('register.html', errors=errors, name=request.form['name'], email=email, password=request.form['password'], no_emails=utils.get_config('no_emails'))
         else:
             with app.app_context():
                 team = Teams(name, email.lower(), password)
@@ -195,18 +200,18 @@ def register():
                     return redirect(url_for('auth.confirm_user'))
                 else:  # Don't care about confirming users
                     if utils.can_send_mail():  # We want to notify the user that they have registered.
-                        utils.sendmail(request.form['email'], "You've successfully registered for {}".format(utils.get_config('ctf_name')))
+                        utils.sendmail(email, "You've successfully registered for {}".format(utils.get_config('ctf_name')))
 
         logger.warn("[{date}] {ip} - {username} registered with {email}".format(
             date=time.strftime("%m/%d/%Y %X"),
             ip=utils.get_ip(),
             username=request.form['name'].encode('utf-8'),
-            email=request.form['email'].encode('utf-8')
+            email=email.encode('utf-8')
         ))
         db.session.close()
         return redirect(url_for('challenges.challenges_view'))
     else:
-        return render_template('register.html')
+        return render_template('register.html', no_emails=utils.get_config('no_emails'))
 
 
 @auth.route('/login', methods=['POST', 'GET'])
@@ -253,7 +258,7 @@ def login():
                 ))
                 errors.append("Your username or password is incorrect")
                 db.session.close()
-                return render_template('login.html', errors=errors)
+                return render_template('login.html', errors=errors, no_emails=utils.get_config('no_emails'))
 
         else:  # This user just doesn't exist
             logger.warn("[{date}] {ip} - submitted invalid account information".format(
@@ -262,11 +267,11 @@ def login():
             ))
             errors.append("Your username or password is incorrect")
             db.session.close()
-            return render_template('login.html', errors=errors)
+            return render_template('login.html', errors=errors, no_emails=utils.get_config('no_emails'))
 
     else:
         db.session.close()
-        return render_template('login.html')
+        return render_template('login.html', no_emails=utils.get_config('no_emails'))
 
 
 @auth.route('/logout')

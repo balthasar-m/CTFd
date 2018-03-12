@@ -114,6 +114,7 @@ def admin_config():
             prevent_registration = 'prevent_registration' in request.form
             prevent_name_change = 'prevent_name_change' in request.form
             view_after_ctf = 'view_after_ctf' in request.form
+            no_emails = 'no_emails' in request.form
             verify_emails = 'verify_emails' in request.form
             mail_tls = 'mail_tls' in request.form
             mail_ssl = 'mail_ssl' in request.form
@@ -127,6 +128,7 @@ def admin_config():
             utils.set_config('prevent_registration', prevent_registration)
             utils.set_config('prevent_name_change', prevent_name_change)
             utils.set_config('view_after_ctf', view_after_ctf)
+            utils.set_config('no_emails', no_emails)
             utils.set_config('verify_emails', verify_emails)
             utils.set_config('mail_tls', mail_tls)
             utils.set_config('mail_ssl', mail_ssl)
@@ -202,6 +204,7 @@ def admin_config():
     view_scoreboard_if_authed = utils.get_config('view_scoreboard_if_authed')
     prevent_registration = utils.get_config('prevent_registration')
     prevent_name_change = utils.get_config('prevent_name_change')
+    no_emails = utils.get_config('no_emails')
     verify_emails = utils.get_config('verify_emails')
 
     workshop_mode = utils.get_config('workshop_mode')
@@ -236,6 +239,7 @@ def admin_config():
         mg_base_url=mg_base_url,
         mg_api_key=mg_api_key,
         prevent_name_change=prevent_name_change,
+        no_emails=no_emails,
         verify_emails=verify_emails,
         view_after_ctf=view_after_ctf,
         themes=themes,
