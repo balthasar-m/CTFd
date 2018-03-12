@@ -25,13 +25,16 @@ function updateChalWindow(obj) {
         var solves = obj.solves == 1 ? " Solve" : " Solves";
         var solves = obj.solves + solves;
 
+        // replace [IP_here] with IP of the challende system (b.c. challenges run on the same machine)
+        var desc_replaced = obj.description.replace(/\[IP_HERE\]/g, window.location.hostname);
+
         var nonce = $('#nonce').val();
         var wrapper  = {
             id: obj.id,
             name: obj.name,
             value: obj.value,
             tags: obj.tags,
-            desc: obj.description,
+            desc: desc_replaced, // use replaced descriptions
             solves: solves,
             files: obj.files,
             hints: obj.hints,
