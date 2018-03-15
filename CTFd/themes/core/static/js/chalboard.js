@@ -223,6 +223,7 @@ function loadchals(cb) {
         challenges = $.parseJSON(JSON.stringify(data));
 
         $('#challenges-board').empty();
+        $('#challenges-board').addClass('row');
 
         for (var i = challenges['game'].length - 1; i >= 0; i--) {
             challenges['game'][i].solves = 0;
@@ -232,14 +233,16 @@ function loadchals(cb) {
 
                 var categoryid = category.replace(/ /g,"-").hashCode();
                 var categoryrow = $('' +
-                    '<div id="{0}-row" class="pt-5">'.format(categoryid) +
-                        '<div class="category-header col-md-12 mb-3">' +
-                        '</div>' +
-                        '<div class="category-challenges col-md-12">' +
-                            '<div class="challenges-row col-md-12"></div>' +
+                    '<div class="col-md-2"' +
+                        '<div id="{0}-row" class="pt-5">'.format(categoryid) +
+                            '<div class="category-header mb-3">' +
+                            '</div>' +
+                            '<div class="category-challenges">' +
+                                '<div class="challenges-row"></div>' +
+                            '</div>' +
                         '</div>' +
                     '</div>');
-                categoryrow.find(".category-header").append($("<h3>"+ category +"</h3>"));
+                categoryrow.find(".category-header").append($("<h3><center>"+ category +"</center></h3>"));
 
                 $('#challenges-board').append(categoryrow);
             }
@@ -250,7 +253,7 @@ function loadchals(cb) {
             var challenge = chalinfo.category.replace(/ /g,"-").hashCode();
             var chalid = chalinfo.name.replace(/ /g,"-").hashCode();
             var catid = chalinfo.category.replace(/ /g,"-").hashCode();
-            var chalwrap = $("<div id='{0}' class='col-md-3 d-inline-block'></div>".format(chalid));
+            var chalwrap = $("<div id='{0}'></div>".format(chalid));
 
             if (user_solves.indexOf(chalinfo.id) == -1){
                 var chalbutton = $("<button class='btn btn-dark challenge-button w-100 text-truncate pt-3 pb-3 mb-2' value='{0}'></button>".format(chalinfo.id));
