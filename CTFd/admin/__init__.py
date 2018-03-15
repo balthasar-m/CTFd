@@ -111,6 +111,7 @@ def admin_config():
             view_challenges_unregistered = 'view_challenges_unregistered' in request.form
             view_scoreboard_if_authed = 'view_scoreboard_if_authed' in request.form
             hide_scores = 'hide_scores' in request.form
+            column_mode = 'column_mode' in request.form
             prevent_registration = 'prevent_registration' in request.form
             prevent_name_change = 'prevent_name_change' in request.form
             view_after_ctf = 'view_after_ctf' in request.form
@@ -125,6 +126,7 @@ def admin_config():
             utils.set_config('view_challenges_unregistered', view_challenges_unregistered)
             utils.set_config('view_scoreboard_if_authed', view_scoreboard_if_authed)
             utils.set_config('hide_scores', hide_scores)
+            utils.set_config('column_mode', column_mode)
             utils.set_config('prevent_registration', prevent_registration)
             utils.set_config('prevent_name_change', prevent_name_change)
             utils.set_config('view_after_ctf', view_after_ctf)
@@ -207,6 +209,7 @@ def admin_config():
     no_emails = utils.get_config('no_emails')
     verify_emails = utils.get_config('verify_emails')
 
+    column_mode = utils.get_config('column_mode')
     workshop_mode = utils.get_config('workshop_mode')
     paused = utils.get_config('paused')
 
@@ -243,6 +246,7 @@ def admin_config():
         verify_emails=verify_emails,
         view_after_ctf=view_after_ctf,
         themes=themes,
+        column_mode=column_mode,
         workshop_mode=workshop_mode,
         paused=paused
     )

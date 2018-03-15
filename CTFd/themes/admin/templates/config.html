@@ -68,6 +68,13 @@
 
 					<div class="form-check">
 						<label>
+							<input id="column_mode" name="column_mode" type="checkbox" {% if column_mode %}checked{% endif %}>
+							Display challenge categories in columns indstead of rows
+						</label>
+					</div>
+
+					<div class="form-check">
+						<label>
 							<input id="paused" name="paused" type="checkbox"
 								   {% if paused %}checked{% endif %}>
 							Pause CTF <i class="far fa-question-circle text-muted cursor-help" data-toggle="tooltip"

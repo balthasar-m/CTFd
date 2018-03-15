@@ -144,6 +144,7 @@ def chals():
                 'template': chal_type.templates['modal'],
                 'script': chal_type.scripts['modal'],
             })
+            json['column_mode'] = utils.get_config('column_mode')
 
         db.session.close()
         return jsonify(json)
