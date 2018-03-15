@@ -236,7 +236,7 @@ function loadchals(cb) {
                 var categoryid = category.replace(/ /g,"-").hashCode();
                 if (challenges['column_mode']) {
                     var categoryrow = $('' +
-                        '<div class="col-md-2"' +
+                        '<div class="col-md-3 mb-4"' +
                             '<div id="{0}-row" class="pt-5">'.format(categoryid) +
                                 '<div class="category-header mb-3">' +
                                 '</div>' +
